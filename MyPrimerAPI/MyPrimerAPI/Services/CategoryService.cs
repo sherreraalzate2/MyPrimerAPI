@@ -26,9 +26,27 @@ namespace MyPrimerAPI.Services
             throw new NotImplementedException();
         }
 
-        public async Task<bool> CreateCategoryAsync(Category category)
+        public async Task<CategoryDto> CreateCategoryAsync(CategoryCreateDto CategoryCreateDto)
         {
-            throw new NotImplementedException();
+            //Validar si la categoria ya existe
+            var categoryExists =await CategoryExistsByNameAsync(CategoryCreateDto.Name);
+            if (categoryExists)
+            {
+                throw new InvalidOperationException($"Ya existe una categoria con el nombre de '{CategoryCreateDto.Name}'");
+            }
+            //Mapear el CategoryCreateDto a Category para pasarlo al repositorio 
+            var category = _mapper.Map<Category>(CategoryCreateDto);
+
+            //Llamar al repositorio para crear la categoria
+
+           var categoryCreated = await _categoryRepository.CreateCategoryAsync(category);
+
+            if (!categoryCreated)
+            {
+                throw new Exception("Error al crear la categoria");
+            }
+            //Mapear el resultado a CategoryDto para devolverlo
+            return _mapper.Map<CategoryDto>(category);
         }
 
         public async Task<bool> DeleteCategoryAsync(int id)
@@ -52,6 +70,11 @@ namespace MyPrimerAPI.Services
         }
 
         public async Task<bool> UpdateCategoryAsync(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CategoryDto> UpdateCategoryAsync(int id, Category categoryDto)
         {
             throw new NotImplementedException();
         }

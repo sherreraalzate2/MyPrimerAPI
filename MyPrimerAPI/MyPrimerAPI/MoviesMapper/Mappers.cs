@@ -9,7 +9,7 @@ namespace MyPrimerAPI.MoviesMapper
         public Mappers()
         {
             CreateMap<Category, CategoryDto>().ReverseMap();
-            CreateMap<Category, CategoryCrateDto>().ReverseMap();
+            CreateMap<Category, CategoryCreateDto>().ReverseMap();
         }
     }
 }
