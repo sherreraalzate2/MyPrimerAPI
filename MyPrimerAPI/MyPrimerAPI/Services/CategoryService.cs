@@ -26,12 +26,12 @@ namespace MyPrimerAPI.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> CreateCategoryAsync(Category category)
+        public async Task<bool> CreateCategoryAsync(Category category)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteCategoryAsync(int id)
+        public async Task<bool> DeleteCategoryAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -43,12 +43,15 @@ namespace MyPrimerAPI.Services
             return _mapper.Map<ICollection<CategoryDto>>(categories); // mapeo los datos obtenidos a CategoryDto
         }
 
-        public Task<CategoryDto> GetCategoryAsync(int id)
+        public async Task<CategoryDto> GetCategoryAsync(int id)
         {
-            throw new NotImplementedException();
+            var category= await _categoryRepository.GetCategoryAsync(id); // solo estoy llamando al repositorio
+
+            return _mapper.Map<CategoryDto>(category); // mapeo los datos obtenidos a CategoryDto
+
         }
 
-        public Task<bool> UpdateCategoryAsync(Category category)
+        public async Task<bool> UpdateCategoryAsync(Category category)
         {
             throw new NotImplementedException();
         }
