@@ -21,9 +21,10 @@ namespace MyPrimerAPI.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> CategoryExistsByNameAsync(string name)
+        public async Task<bool> CategoryExistsByNameAsync(string name)
         {
-            throw new NotImplementedException();
+          bool existe = await _categoryRepository.CategoryExistsByNameAsync(name);
+            return existe;
         }
 
         public async Task<CategoryDto> CreateCategoryAsync(CategoryCreateDto CategoryCreateDto)
