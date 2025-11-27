@@ -38,7 +38,7 @@ namespace MyPrimerAPI.Services
 
         public async Task<ICollection<CategoryDto>> GetCategoriesAsync()
         {
-            var categories =  _categoryRepository.GetCategoriesAsync(); // solo estoy llamando al repositorio
+            var categories = await _categoryRepository.GetCategoriesAsync(); // solo estoy llamando al repositorio
 
             return _mapper.Map<ICollection<CategoryDto>>(categories); // mapeo los datos obtenidos a CategoryDto
         }

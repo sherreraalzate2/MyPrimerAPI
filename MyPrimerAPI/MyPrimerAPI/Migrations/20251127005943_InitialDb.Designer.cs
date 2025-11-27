@@ -12,8 +12,8 @@ using MyPrimerAPI.DAL;
 namespace MyPrimerAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251124231340_InitialDB")]
-    partial class InitialDB
+    [Migration("20251127005943_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
