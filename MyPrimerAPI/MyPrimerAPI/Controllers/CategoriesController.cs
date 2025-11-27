@@ -44,7 +44,7 @@ namespace MyPrimerAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<CategoryDto>> CreatedCategoryAsync([FromBody]CategoryCreateDto categoryCreateDto) 
+        public async Task<ActionResult<CategoryDto>> CreatedCategoryAsync([FromBody]CategoryCreateUpdateDto categoryCreateDto) 
         {
             if (!ModelState.IsValid) 
                 {
@@ -73,13 +73,13 @@ namespace MyPrimerAPI.Controllers
 
         }
 
-        [HttpPost(Name = "CreatedCategoryAsync")]
+        [HttpPut("{id:int}", Name = "UpdateCategoryAsync")]
         [ProducesResponseType(StatusCodes.Status200OK)] 
-        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<ActionResult<CategoryDto>> CreatedCategoryAsync([FromBody] CategoryCreateDto categoryCreateDto)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<CategoryDto>> UpdateCategoryAsync([FromBody] CategoryCreateUpdateDto dto, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -88,24 +88,22 @@ namespace MyPrimerAPI.Controllers
 
             try
             {
-                var createdCategory = await _categoryServices.CreateCategoryAsync(categoryCreateDto);
-
-                // vamos a retornar un 201 Created con la ruta para obtener la categoria creada
-
-                return CreatedAtRoute("GetCategoryAsync", new { id = createdCategory.Id }, createdCategory);
-
+                var updatedCategory = await _categoryServices.UpdateCategoryAsync(dto, id);
+                return Ok(updatedCategory);
             }
             catch (InvalidOperationException ex) when (ex.Message.Contains("Ya existe"))
             {
                 return Conflict(new { ex.Message });
+            }
+            catch (InvalidOperationException ex) when (ex.Message.Contains("No se encontro"))
+            {
+                return NotFound(new { ex.Message });
             }
 
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
-
         }
 
     }
