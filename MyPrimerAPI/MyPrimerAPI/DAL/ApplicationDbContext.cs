@@ -12,5 +12,8 @@ namespace MyPrimerAPI.DAL
 
         // seccion para definir los DbSet (tablas) de la base de datos
         public DbSet<Category> Categories { get; set; }
+
+        // DbSet para la entidad Movie
+        public DbSet<Movie> Movies { get; set; }
     }
 }
