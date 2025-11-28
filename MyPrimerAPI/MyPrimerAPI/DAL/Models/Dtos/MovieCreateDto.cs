@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyPrimerAPI.DAL.Models
+namespace MyPrimerAPI.DAL.Models.Dtos
 {
-    public class Movie : AuditBase
+    public class MovieCreateDto
     {
-
-        [Required]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
         [MaxLength(100)]
         public string Name { get; set; }
 
@@ -14,6 +13,7 @@ namespace MyPrimerAPI.DAL.Models
 
         public string? Description { get; set; }
 
+        // ESTA ES LA CLAVE: Debe tener doble 's'
         [Required]
         [MaxLength(10)]
         public string Classification { get; set; }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyPrimerAPI.DAL;
+using MyPrimerAPI.DAL.Repository;
 using MyPrimerAPI.MoviesMapper;
 using MyPrimerAPI.Repository;
 using MyPrimerAPI.Repository.IRepository;
@@ -17,6 +18,12 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 // Dependency Injection for repositories
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+// Dependency Injection for Movie repository
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+
+// Dependency Injection for Movie service
+builder.Services.AddScoped<IMovieService, MovieService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
