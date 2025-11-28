@@ -32,10 +32,18 @@ namespace MyPrimerAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ICollection<CategoryDto>>> GetCategoryAsync(int id)
+        public async Task<ActionResult<CategoryDto>> GetCategoryAsync(int id)
         {
-            var categoryDto = await _categoryServices.GetCategoryAsync(id);
-            return Ok(categoryDto);
+            try
+            {
+                var categoryDto = await _categoryServices.GetCategoryAsync(id);
+                return Ok(categoryDto);
+            }
+            catch (InvalidOperationException ex) when (ex.Message.Contains("No se encontro"))
+            {
+                return NotFound(new { ex.Message });
+            }
+
         }
 
         [HttpPost (Name = "CreatedCategoryAsync")]
@@ -95,6 +103,30 @@ namespace MyPrimerAPI.Controllers
             {
                 return Conflict(new { ex.Message });
             }
+            catch (InvalidOperationException ex) when (ex.Message.Contains("No se encontro"))
+            {
+                return NotFound(new { ex.Message });
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete("{id:int}", Name = "DeleteCategoryAsync")]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> DeleteCategoryAsync(int id)
+        {
+            try
+            {
+                var deletedCategory = await _categoryServices.DeleteCategoryAsync(id);
+                return Ok(deletedCategory); //retornamos un 200 OK con el resultado de la eliminacion "True"
+            }
+
             catch (InvalidOperationException ex) when (ex.Message.Contains("No se encontro"))
             {
                 return NotFound(new { ex.Message });

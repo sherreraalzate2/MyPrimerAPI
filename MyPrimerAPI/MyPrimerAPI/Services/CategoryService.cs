@@ -52,7 +52,20 @@ namespace MyPrimerAPI.Services
 
         public async Task<bool> DeleteCategoryAsync(int id)
         {
-            throw new NotImplementedException();
+            //validar si la categoria existe
+            var categoryExists = await _categoryRepository.GetCategoryAsync(id);
+            if (categoryExists == null)
+            {
+                throw new InvalidOperationException($"No se encontro la categoria con ID: '{id}'");
+            }
+            //Llamar al repositorio para eliminar la categoria
+            var categoryDeleted = await _categoryRepository.DeleteCategoryAsync(id);
+
+            if (!categoryDeleted)
+            {
+                throw new Exception("Error al eliminar la categoria");
+            }
+            return categoryDeleted;
         }
 
         public async Task<ICollection<CategoryDto>> GetCategoriesAsync()
